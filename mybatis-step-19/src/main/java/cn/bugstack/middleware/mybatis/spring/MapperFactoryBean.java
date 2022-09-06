@@ -17,14 +17,22 @@ import java.lang.reflect.Proxy;
  */
 public class MapperFactoryBean<T> implements FactoryBean<T> {
 
+    private Class<T> mapperInterface;
+    private SqlSessionFactory sqlSessionFactory;
+
+    public MapperFactoryBean(Class<T> mapperInterface, SqlSessionFactory sqlSessionFactory) {
+        this.mapperInterface = mapperInterface;
+        this.sqlSessionFactory = sqlSessionFactory;
+    }
+
     @Override
     public T getObject() throws Exception {
-        return null;
+        return sqlSessionFactory.openSession().getMapper(mapperInterface);
     }
 
     @Override
     public Class<?> getObjectType() {
-        return null;
+        return mapperInterface;
     }
 
     @Override
